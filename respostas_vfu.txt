@@ -1,0 +1,24 @@
+C01 e C02
+Esses dois casos não deveriam gerar VFU. Então, para eles, a resposta pronta é basicamente:
+
+C01: não há VFU; a avaliação fecha na primeira submissão.
+
+C02: não há VFU; a avaliação fecha na primeira submissão.
+
+C03 — resposta pronta da VFU 1
+“Porque a posse do Santos não foi só circulação de bola: ela empurrou o Corinthians para trás, gerou pressão constante e fez o time recuperar a bola mais perto do gol. Isso aparece no volume de finalizações, nos gols em jogadas trabalhadas e nos erros do Corinthians na saída. Então a posse foi um fator tático que ajudou a controlar o jogo e a criar as chances.”
+
+C04 — resposta pronta da VFU 1
+“Esses números mostram que o São Paulo teve mais controle territorial e conseguiu impor ritmo no meio e no ataque. A posse alta, o bom aproveitamento de passes e o volume de finalizações indicam que o time conseguiu organizar melhor as ações ofensivas e impedir o Athletico de construir com liberdade. Por isso eu interpretei como superioridade tática, não só como superioridade no placar.”
+
+C05 — resposta pronta da VFU 1
+“O que sustenta minha análise é que o Vasco não conseguiu se organizar ofensivamente nem reagir com padrão de jogo. A derrota por 2x0 veio junto com pouca produção ofensiva e com dificuldades claras de construção, então a leitura de falta de controle tático faz sentido. Eu não quis dizer só que faltou vontade, mas que o time não mostrou uma estrutura capaz de competir melhor na partida.”
+
+C05 — resposta pronta da VFU 2
+“O Botafogo se mostrou mais organizado e conseguiu aproveitar melhor os momentos do jogo, principalmente na transição e na ocupação dos espaços. Isso aparece no fato de ter vencido com mais controle e com maior eficiência nas ações ofensivas. Então minha conclusão é que a superioridade do Botafogo foi tática também, não apenas emocional ou motivacional.”
+
+C06 — resposta pronta da VFU 1
+“A superioridade tática aparece na forma como o time conseguiu se organizar defensivamente, sair com mais qualidade e atacar os espaços deixados pelo adversário. Mesmo sem eu citar um lance específico, a leitura veio do conjunto da partida: melhor ocupação dos espaços, mais controle do meio e mais eficiência nas transições. Por isso eu entendi que não foi só impressão geral, mas um padrão coletivo.”
+
+C06 — resposta pronta da VFU 2
+“A diferença entre organização tática e impressão geral está em observar padrões coletivos repetidos na partida. Eu considerei justamente esses padrões: ocupação de espaço, transições, pressão sobre a saída e controle do meio-campo. Então minha análise não foi baseada só na sensação de que o time era melhor, mas em sinais de funcionamento coletivo durante o jogo.”

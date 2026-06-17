@@ -1,0 +1,164 @@
+<!-- Página principal do frontend para avaliação formativa com LLM em análise tática de futebol -->
+<!-- Autor: Vinicius Camargo --> 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P2 Fatec — Avaliação Formativa com LLM</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <span class="logo-icon">⚽</span>
+        <div>
+          <h1>AvaliaFut</h1>
+          <p>Avaliação Formativa com LLM — P2 Fatec 2026</p>
+        </div>
+      </div>
+      <div class="header-badge">Análise Tática de Futebol</div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- COLUNA ESQUERDA: casos de demo -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>📋 Casos de Demo</h2>
+        <p>Selecione um aprendiz para iniciar a avaliação</p>
+      </div>
+      <div id="lista-casos" class="lista-casos">
+        <div class="loading">Carregando casos...</div>
+      </div>
+    </aside>
+
+    <!-- COLUNA DIREITA: fluxo de avaliação -->
+    <section class="conteudo">
+
+      <!-- Estado inicial (nenhum caso selecionado) -->
+      <div id="estado-inicial" class="estado-inicial">
+        <span class="estado-inicial-icon">👈</span>
+        <h2>Selecione um caso</h2>
+        <p>Escolha um aprendiz na lista ao lado para iniciar o fluxo de avaliação formativa.</p>
+      </div>
+
+      <!-- Painel de avaliação -->
+      <div id="painel-avaliacao" class="painel-avaliacao hidden">
+
+        <!-- Info do aprendiz -->
+        <div class="aprendiz-header">
+          <div class="aprendiz-info">
+            <span id="aprendiz-avatar" class="aprendiz-avatar">A</span>
+            <div>
+              <h2 id="aprendiz-nome">Nome do Aprendiz</h2>
+              <p id="aprendiz-descricao">Descrição do caso</p>
+            </div>
+          </div>
+          <div class="aprendiz-meta">
+            <span id="badge-vfus-esperados" class="badge badge-vfu">0 VFUs</span>
+            <span id="badge-classificacao-esperada" class="badge badge-neutro">esperado</span>
+          </div>
+        </div>
+
+        <!-- Fluxograma de estágios -->
+        <div class="estagios">
+          <div class="estagio ativo" id="estagio-1">
+            <span class="estagio-num">1</span>
+            <span class="estagio-label">Submissão</span>
+          </div>
+          <div class="estagio-seta">→</div>
+          <div class="estagio" id="estagio-2">
+            <span class="estagio-num">2</span>
+            <span class="estagio-label">Interpretação</span>
+          </div>
+          <div class="estagio-seta">→</div>
+          <div class="estagio" id="estagio-3">
+            <span class="estagio-num">3</span>
+            <span class="estagio-label">VFU</span>
+          </div>
+          <div class="estagio-seta">→</div>
+          <div class="estagio" id="estagio-4">
+            <span class="estagio-num">4</span>
+            <span class="estagio-label">Classificação</span>
+          </div>
+        </div>
+
+        <!-- Submissão inicial -->
+        <div id="bloco-submissao" class="bloco">
+        <div class="bloco-titulo">📝 Submissão do Aprendiz</div>
+        <div id="texto-submissao" class="texto-submissao"></div>
+        <textarea
+            id="textarea-submissao-livre"
+            class="textarea-livre hidden"
+            placeholder="Digite aqui a submissão do aprendiz para avaliar..."
+            rows="8"
+        ></textarea>
+        <button id="btn-avaliar" class="btn btn-primary" onclick="iniciarAvaliacao()">
+            🔍 Iniciar Avaliação
+        </button>
+        </div>
+
+        <!-- Loading -->
+        <div id="bloco-loading" class="bloco-loading hidden">
+          <div class="spinner"></div>
+          <p>Analisando evidências com LLM...</p>
+        </div>
+
+        <!-- VFU -->
+        <div id="bloco-vfu" class="bloco hidden">
+        <div class="bloco-titulo">
+            🔎 Verification Follow-Up
+            <span id="vfu-contador" class="badge badge-vfu">VFU 1/2</span>
+        </div>
+        <div id="vfu-hipotese" class="vfu-hipotese"></div>
+        <div class="vfu-pergunta-box">
+            <p class="vfu-label">Pergunta ao aprendiz:</p>
+            <p id="vfu-pergunta" class="vfu-pergunta"></p>
+        </div>
+        <div class="vfu-resposta-box">
+            <p class="vfu-label">Resposta do aprendiz:</p>
+            <textarea
+            id="textarea-vfu-resposta"
+            class="textarea-livre"
+            placeholder="Resposta do aprendiz..."
+            rows="4"
+            ></textarea>
+        </div>
+        <button id="btn-responder-vfu" class="btn btn-secondary" onclick="responderVFU()">
+            📤 Enviar Resposta
+        </button>
+        </div>
+
+        <!-- Histórico de VFUs -->
+        <div id="bloco-historico-vfus" class="bloco hidden">
+          <div class="bloco-titulo">📜 Histórico de VFUs</div>
+          <div id="historico-vfus-lista"></div>
+        </div>
+
+        <!-- Resultado final -->
+        <div id="bloco-resultado" class="bloco hidden">
+          <div class="bloco-titulo">🎓 Resultado — Output para o Professor</div>
+          <div id="resultado-card" class="resultado-card"></div>
+        </div>
+
+        <!-- Botão resetar -->
+        <div id="bloco-resetar" class="hidden" style="margin-top: 1rem;">
+          <button class="btn btn-ghost" onclick="resetarCaso()">↩ Avaliar novamente</button>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/cases.js"></script>
+  <script src="js/workflow.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
