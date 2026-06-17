@@ -2,7 +2,8 @@ FROM nginx:alpine
 
 COPY . /usr/share/nginx/html
 
-RUN echo 'server { \
+RUN mkdir -p /etc/nginx/templates && \
+    echo 'server { \
     listen $PORT; \
     location / { \
         root /usr/share/nginx/html; \
