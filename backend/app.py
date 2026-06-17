@@ -3,8 +3,6 @@
 
 import os
 
-import os
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from workflow import iniciar_sessao, responder_vfu
@@ -12,6 +10,9 @@ from cases import CASOS_DEMO
 
 app = Flask(__name__)
 CORS(app)
+
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "*")
+CORS(app, resources={r"/*": {"origins": FRONTEND_URL}})
 
 # Armazena sessões ativas em memória
 sessoes_ativas = {}
