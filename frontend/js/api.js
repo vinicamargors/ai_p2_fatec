@@ -1,4 +1,4 @@
-const API_URL = "/api";
+const API_URL = "https://ai-p2-fatec-backend.onrender.com";
 
 async function apiGetCasos() {
   const res = await fetch(`${API_URL}/casos`);
