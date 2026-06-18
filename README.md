@@ -108,28 +108,33 @@ Para validar a integridade do workflow e provar a estabilidade da máquina de es
 # Clonar o repositório
 git clone [https://github.com/vinicamargors/ai_p2_fatec.git](https://github.com/vinicamargors/ai_p2_fatec.git)
 cd ai_p2_fatec/backend
-
+```
 # Criar o ambiente virtual
+```bash
 python -m venv venv
-
+```
 # Ativar o ambiente virtual
 # No Linux/macOS:
+```bash
 source venv/bin/activate
 # No Windows (PowerShell):
 .\\venv\\Scripts\\Activate.ps1
-
+```
 # Instalar as dependências estritas
+```bash
 pip install -r requirements.txt
+```
 Passo 2: Configurar as Variáveis de Ambiente
 Crie um arquivo chamado .env dentro da pasta /backend:
-
-Snippet de código
+```bash
 GEMINI_API_KEY=seu_token_real_da_google_aqui
 GEMINI_MODEL=gemini-3.1-flash-lite
 PORT=5000
+```
 Passo 3: Inicializar a API do Backend
-Bash
+```bash
 python app.py
+```
 O servidor backend estará rodando localmente em http://localhost:5000. Você pode validar a saúde da API acessando o endpoint http://localhost:5000/api/health.
 
 Passo 4: Executar o Frontend
@@ -137,8 +142,9 @@ Como o frontend foi desenvolvido utilizando Vanilla JavaScript puro e otimizado,
 
 Certifique-se de que a variável API_URL no arquivo frontend/js/api.js está apontando para o seu backend local:
 
-JavaScript
+```javascript
 const API_URL = "http://localhost:5000/api";
+```
 Abra o arquivo frontend/index.html diretamente em qualquer navegador moderno ou utilize a extensão Live Server do VS Code.
 
 🐳 8. Deploy e Conteinerização (Nível Produção)
@@ -146,8 +152,9 @@ O projeto está totalmente configurado para deploy automatizado na plataforma Re
 
 Backend (Web Service Linux): Configurado via Procfile nativo disparando o servidor WSGI de alta performance:
 
-Plaintext
+```bash
 web: gunicorn app:app
+```
 Frontend (Static Site conteinerizado via Docker): O repositório possui um Dockerfile otimizado que encapsula o código estático em um servidor Nginx ultra-leve rodando em ambiente Alpine Linux, tratando dinamicamente as portas de escuta injetadas pelo ambiente.
 
 👥 9. Autores e Desenvolvimento
