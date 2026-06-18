@@ -2,155 +2,136 @@
 # Autor: Vinicius Camargo
 
 import os
-
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from workflow import iniciar_sessao, responder_vfu
 from cases import CASOS_DEMO
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend', static_url_path='')
 CORS(app)
-
-FRONTEND_URL = os.environ.get("FRONTEND_URL", "*")
-CORS(app, resources={r"/*": {"origins": FRONTEND_URL}})
 
 # Armazena sessões ativas em memória
 sessoes_ativas = {}
 
 
-@app.route("/", methods=["GET"])
+# ── Frontend ──────────────────────────────────────────────────────────────────
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_frontend(path):
+    """
+    Serve os arquivos estáticos do frontend.
+    Se o arquivo existir, retorna ele. Senão, retorna o index.html.
+    """
+    if path != '' and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    return send_from_directory(app.static_folder, 'index.html')
+
+
+# ── API ───────────────────────────────────────────────────────────────────────
+
+@app.route('/api/health', methods=['GET'])
 def health():
     return jsonify({
-        "status": "ok",
-        "mensagem": "P2 Fatec — Avaliação Formativa com LLM"
+        'status': 'ok',
+        'mensagem': 'P2 Fatec — Avaliação Formativa com LLM'
     })
 
 
-@app.route("/casos", methods=["GET"])
+@app.route('/api/casos', methods=['GET'])
 def listar_casos():
-    """
-    Retorna os casos de demo para o frontend carregar.
-    """
     casos_resumo = [
         {
-            "id": c["id"],
-            "nome": c["nome"],
-            "descricao": c["descricao"],
-            "vfus_esperados": c["vfus_esperados"],
-            "classificacao_esperada": c["classificacao_esperada"],
-            "submissao": c["submissao"],
-            "respostas_vfu": c.get("respostas_vfu", []),
+            'id': c['id'],
+            'nome': c['nome'],
+            'descricao': c['descricao'],
+            'vfus_esperados': c['vfus_esperados'],
+            'classificacao_esperada': c['classificacao_esperada'],
+            'submissao': c['submissao'],
+            'respostas_vfu': c.get('respostas_vfu', []),
         }
         for c in CASOS_DEMO
     ]
-    return jsonify({"casos": casos_resumo})
+    return jsonify({'casos': casos_resumo})
 
 
-@app.route("/avaliar", methods=["POST"])
+@app.route('/api/avaliar', methods=['POST'])
 def avaliar():
-    """
-    Inicia uma nova sessão de avaliação.
-    Body:
-    {
-      "nome": "Ana Silva",
-      "submissao": "texto da submissão"
-    }
-    """
     data = request.get_json(silent=True) or {}
 
-    nome = data.get("nome", "").strip()
-    submissao = data.get("submissao", "").strip()
+    nome = data.get('nome', '').strip()
+    submissao = data.get('submissao', '').strip()
 
     if not nome or not submissao:
-        return jsonify({"erro": "nome e submissao são obrigatórios"}), 400
+        return jsonify({'erro': 'nome e submissao são obrigatórios'}), 400
 
     try:
         resultado, sessao = iniciar_sessao(nome, submissao)
-        sessao_id = sessao["id"]
+        sessao_id = sessao['id']
 
-        # Só guarda em memória se a sessão ainda está em andamento
-        if resultado["estado"] == "aguardando_vfu":
+        if resultado['estado'] == 'aguardando_vfu':
             sessoes_ativas[sessao_id] = sessao
 
-        # O frontend usa esse id para responder VFUs
-        resultado["sessao_id"] = sessao_id
-
+        resultado['sessao_id'] = sessao_id
         return jsonify(resultado)
 
     except Exception as e:
         return jsonify({
-            "erro": "Falha ao iniciar avaliação",
-            "detalhe": str(e)
+            'erro': 'Falha ao iniciar avaliação',
+            'detalhe': str(e)
         }), 500
 
 
-@app.route("/responder-vfu", methods=["POST"])
+@app.route('/api/responder-vfu', methods=['POST'])
 def responder():
-    """
-    Envia resposta do aprendiz para uma VFU.
-    Body:
-    {
-      "sessao_id": "...",
-      "resposta": "texto da resposta"
-    }
-    """
     data = request.get_json(silent=True) or {}
 
-    sessao_id = data.get("sessao_id", "").strip()
-    resposta = data.get("resposta", "").strip()
+    sessao_id = data.get('sessao_id', '').strip()
+    resposta = data.get('resposta', '').strip()
 
     if not sessao_id or not resposta:
-        return jsonify({"erro": "sessao_id e resposta são obrigatórios"}), 400
+        return jsonify({'erro': 'sessao_id e resposta são obrigatórios'}), 400
 
     sessao = sessoes_ativas.get(sessao_id)
     if not sessao:
-        return jsonify({"erro": "Sessão não encontrada ou já encerrada"}), 404
+        return jsonify({'erro': 'Sessão não encontrada ou já encerrada'}), 404
 
     try:
         resultado = responder_vfu(sessao, resposta)
 
-        # Se ainda precisa de VFU, mantém sessão viva
-        if resultado["estado"] == "aguardando_vfu":
+        if resultado['estado'] == 'aguardando_vfu':
             sessoes_ativas[sessao_id] = sessao
         else:
-            # Caso concluído: remove da memória
             sessoes_ativas.pop(sessao_id, None)
 
-        resultado["sessao_id"] = sessao_id
+        resultado['sessao_id'] = sessao_id
         return jsonify(resultado)
 
     except Exception as e:
         return jsonify({
-            "erro": "Falha ao processar resposta da VFU",
-            "detalhe": str(e)
+            'erro': 'Falha ao processar resposta da VFU',
+            'detalhe': str(e)
         }), 500
 
 
-@app.route("/sessoes", methods=["GET"])
+@app.route('/api/sessoes', methods=['GET'])
 def listar_sessoes():
-    """
-    Endpoint auxiliar de debug.
-    Pode remover depois se quiser.
-    """
-    resumo = []
-    for sessao_id, sessao in sessoes_ativas.items():
-        resumo.append({
-            "sessao_id": sessao_id,
-            "nome_aprendiz": sessao.get("nome_aprendiz"),
-            "estado": sessao.get("estado"),
-            "estagio_atual": sessao.get("estagio_atual"),
-            "vfus_realizados": len(sessao.get("historico_vfus", [])),
-        })
-
-    return jsonify({
-        "total": len(resumo),
-        "sessoes": resumo
-    })
+    resumo = [
+        {
+            'sessao_id': sid,
+            'nome_aprendiz': s.get('nome_aprendiz'),
+            'estado': s.get('estado'),
+            'estagio_atual': s.get('estagio_atual'),
+            'vfus_realizados': len(s.get('historico_vfus', [])),
+        }
+        for sid, s in sessoes_ativas.items()
+    ]
+    return jsonify({'total': len(resumo), 'sessoes': resumo})
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", 5000)),
+        host='0.0.0.0',
+        port=int(os.environ.get('PORT', 5000)),
         debug=False
     )
