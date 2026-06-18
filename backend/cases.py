@@ -84,7 +84,7 @@ O placar de 3x1 confirma que o São Paulo foi mais eficiente em campo.
         "A superioridade do São Paulo aparece porque o time teve mais posse, mais passes certos e mais finalizações, então isso prova que foi melhor taticamente."
     ],
 },
-    {
+{
         "id": "C05",
         "nome": "Eva Costa",
         "vfus_esperados": 2,
@@ -95,12 +95,15 @@ O Santos jogou com 4-3-3 e manteve mais posse de bola. O time controlou o jogo
 porque esteve mais tempo com a bola e criou mais chances. O Corinthians ficou
 recuando e isso já mostra a superioridade do Santos.
 
-Os números de posse e finalizações indicam que o Santos foi melhor em campo.
+Os números de posse e finalizações indicam que o Santos foi melhor in campo.
 O time conseguiu vencer porque atacou mais e foi mais constante no jogo.
 """,
         "respostas_vfu": [
-            "A posse do Santos ajudou a empurrar o Corinthians para trás, mas ainda falta explicar melhor como isso se conectou com a pressão após a perda da bola.",
-            "Além disso, o Santos mantinha uma recomposição rápida e uma estrutura defensiva compacta, o que reduzia a saída limpa do Corinthians depois das recuperações.",
+            # Resposta 1: Entrega os dados e estatísticas cobrados, mas deixa uma leve ponta solta na transição
+            "Analisando os dados do scout, o Santos fechou a partida com 61% de posse de bola e realizou 16 finalizações contra apenas 5 do Corinthians. Essa superioridade estatística se materializou porque os pontas espetaram a defesa adversária, obrigando o bloco do Corinthians a recuar de forma crônica para proteger a própria área.",
+            
+            # Resposta 2: Entrega o mecanismo tático de sustentação (pressão pós-perda) e mata a lacuna
+            "Para sustentar essa presença no campo de ataque sem sofrer contragolpes, o Santos aplicou uma transição defensiva agressiva. No momento exato da perda da posse, o bloco avançado subia a pressão no portador da bola em menos de 5 segundos, enquanto a linha defensiva se mantinha compacta e alta para interceptar qualquer tentativa de ligação direta do Corinthians."
         ],
     },
     {
