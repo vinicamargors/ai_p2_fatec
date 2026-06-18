@@ -106,7 +106,7 @@ O time conseguiu vencer porque atacou mais e foi mais constante no jogo.
             "Para sustentar essa presença no campo de ataque sem sofrer contragolpes, o Santos aplicou uma transição defensiva agressiva. No momento exato da perda da posse, o bloco avançado subia a pressão no portador da bola em menos de 5 segundos, enquanto a linha defensiva se mantinha compacta e alta para interceptar qualquer tentativa de ligação direta do Corinthians."
         ],
     },
-    {
+{
         "id": "C06",
         "nome": "Fernando Lima",
         "vfus_esperados": 2,
@@ -121,8 +121,11 @@ Os números de posse e finalizações indicam que o Corinthians foi melhor em ca
 O time conseguiu vencer porque atacou mais e foi mais constante no jogo.
 """,
         "respostas_vfu": [
-            "A posse do Santos ajudou a empurrar o Corinthians para trás, mas ainda falta explicar melhor como isso se conectou com a pressão após a perda da bola.",
-            "Além disso, o Santos mantinha uma recomposição rápida e uma estrutura defensiva compacta, o que reduzia a saída limpa do Corinthians depois das recuperações.",
+            # Resposta 1: Alinhada com o Corinthians. Traz dados básicos para passar pela primeira avaliação e forçar a VFU 2
+            "O Corinthians dominou o scout com 58% de posse de bola e distribuiu 14 finalizações ao longo dos dois tempos. O esquema 4-3-3 foi superior porque a simples presença de três atacantes fixou os laterais do Santos na defesa, impedindo qualquer reação deles e construindo o placar a nosso favor.",
+            
+            # Resposta 2: Aqui ele entrega o ouro. Ignora a tática, se apoia na "vontade" e no placar, forçando a IA a cravar o Incorreto
+            "A verdade é que quem tem mais volume e chuta mais pro gol ganha por merecimento. O Corinthians foi mais raçudo, correu mais que o Santos no segundo tempo e o placar final prova que o time quis mais a vitória. Tática não importa tanto quando o time mostra mais vontade de vencer em campo."
         ],
     }
 ]
