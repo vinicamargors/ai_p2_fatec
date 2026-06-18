@@ -1,4 +1,4 @@
-const API_URL = "https://aip2fatec-production.up.railway.app/";
+const API_URL = "https://ai-p2-fatec-backend.onrender.com";
 
 async function apiGetCasos() {
   const res = await fetch(`${API_URL}/casos`);
